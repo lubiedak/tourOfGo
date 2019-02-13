@@ -3,6 +3,8 @@ package main
 import (
     "fmt"
     "math/rand"
+    "math"
+    "strings"
 )
 
 type Node struct{
@@ -57,12 +59,22 @@ func getNodeByName(nodes []Node, name string ) *Node{
     return nil
 }
 
-func calculateLength(nodes []Node, sequence string){
+func distance(a,b Node) float64{
+    return math.Sqrt(math.Pow(float64(a.X-b.X),2.0) + math.Pow(float64(a.Y-b.Y),2.0))
+}
 
-    //for _, name := range sequence{
-    //
-    //}
+func distanceRef(a,b *Node) float64{
+    return math.Sqrt(math.Pow(float64(a.X-b.X),2.0) + math.Pow(float64(a.Y-b.Y),2.0))
+}
 
+
+func calculateLength(nodes []Node, sequence string) float64{
+    nodeNames := strings.Split(sequence, "")
+    length:= distanceRef(getNodeByName(nodes, nodeNames[0]), getNodeByName(nodes, nodeNames[len(nodeNames)-1]))
+    for i:=0; i<len(nodes)-1;i++{
+        length+=distanceRef(getNodeByName(nodes, nodeNames[i]), getNodeByName(nodes, nodeNames[i+1]))
+    }
+    return length
 }
 
 
@@ -79,6 +91,16 @@ func main() {
 
     allPerms := permutations("ABCDEFGHIJ")
     fmt.Println(len(allPerms))
-
-
+    minimumLength:= 9999999.0
+    bestPerm:= allPerms[0]
+    for _, perm := range allPerms {
+        length:=calculateLength(nodes, perm)
+        if(length < minimumLength){
+            fmt.Printf("New minimum: %f\n", length)
+            minimumLength = length
+            bestPerm = perm
+        }
+    }
+    fmt.Println(minimumLength)
+    fmt.Println(bestPerm)
 }
