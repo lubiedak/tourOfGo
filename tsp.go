@@ -4,6 +4,16 @@ import (
     "fmt"  
 )
 
+type Node struct{
+    name string
+    X,Y int
+    nodes map[string]*Node
+}
+
+type Vertex struct {
+    first, second *Node
+}
+
 func join(ins []rune, c rune) (result []string) {
     for i := 0; i <= len(ins); i++ {
         result = append(result, string(ins[:i])+string(c)+string(ins[i:]))
