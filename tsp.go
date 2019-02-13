@@ -30,7 +30,6 @@ func join(ins []rune, c rune) (result []string) {
     return
 }
 
-
 func permutations(testStr string) []string {
     var n func(testStr []rune, p []string) []string
     n = func(testStr []rune, p []string) []string{
@@ -44,19 +43,42 @@ func permutations(testStr string) []string {
             return n(testStr[1:], result)
         }
     }
-  
+
     output := []rune(testStr)
     return n(output[1:], []string{string(output[0])})
 }
 
+func getNodeByName(nodes []Node, name string ) *Node{
+    for _, node := range nodes{
+        if node.name == name {
+            return &node
+        }
+    }
+    return nil
+}
 
-  
+func calculateLength(nodes []Node, sequence string){
+
+    //for _, name := range sequence{
+    //
+    //}
+
+}
+
+
 func main() {
 
     nodes:=generateNodes(10, 100)
     for _, node := range nodes {
-        fmt.Print(node)
+        fmt.Println(node)
     }
-    d := permutations("ABCD")
-    fmt.Print(d)
+
+    fmt.Println(getNodeByName(nodes, "B"))
+    fmt.Println(getNodeByName(nodes, "W"))
+
+
+    allPerms := permutations("ABCDEFGHIJ")
+    fmt.Println(len(allPerms))
+
+
 }
