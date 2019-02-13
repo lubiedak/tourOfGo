@@ -1,17 +1,26 @@
 package main
   
 import (
-    "fmt"  
+    "fmt"
+    "math/rand"
 )
 
 type Node struct{
     name string
     X,Y int
-    nodes map[string]*Node
 }
 
 type Vertex struct {
     first, second *Node
+}
+
+func generateNodes(n, field_size int) []Node{
+    rand.Seed(0)
+    var nodes = make([]Node, n)
+    for i := 0; i < n; i++ {
+        nodes[i] = Node{string('A' - 1 + i+1), rand.Intn(field_size), rand.Intn(field_size)}
+    }
+    return nodes
 }
 
 func join(ins []rune, c rune) (result []string) {
@@ -20,7 +29,8 @@ func join(ins []rune, c rune) (result []string) {
     }
     return
 }
-  
+
+
 func permutations(testStr string) []string {
     var n func(testStr []rune, p []string) []string
     n = func(testStr []rune, p []string) []string{
@@ -38,8 +48,15 @@ func permutations(testStr string) []string {
     output := []rune(testStr)
     return n(output[1:], []string{string(output[0])})
 }
+
+
   
-func main() {   
+func main() {
+
+    nodes:=generateNodes(10, 100)
+    for _, node := range nodes {
+        fmt.Print(node)
+    }
     d := permutations("ABCD")
     fmt.Print(d)
 }
